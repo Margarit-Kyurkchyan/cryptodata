@@ -1,0 +1,935 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Taklimakan cryptodata",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/api/widget_cryptomarket": {
+      "get": {
+        "operationId": "listVersionsv2",
+        "summary": "Получить рынки для виджета",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n    \"versions\": [\n        {\n            \"status\": \"CURRENT\",\n            \"updated\": \"2011-01-21T11:33:21Z\",\n            \"id\": \"v2.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v2/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        },\n        {\n            \"status\": \"EXPERIMENTAL\",\n            \"updated\": \"2013-07-23T11:33:21Z\",\n            \"id\": \"v3.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v3/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        }\n    ]\n}"
+            }
+          }
+        }
+      }
+    },
+    "/api/charts/currency_cap": {
+      "get": {
+        "tags": [
+          "charts"
+        ],
+        "summary": "Get data for charts capitalization currency",
+        "description": "Data charts interval time from to",
+        "operationId": "getChartsDataById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "period_interval",
+            "in": "query",
+            "description": "Chart interval",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "hour",
+                "4hour",
+                "12hour",
+                "day",
+                "week",
+                "month"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "period_date_start",
+            "in": "query",
+            "description": "Date start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "period_date_end",
+            "in": "query",
+            "description": "Date end",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "object_amount",
+            "in": "query",
+            "description": "Amount object in response",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Currency ticker",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "period_date_start": {
+                      "type": "string"
+                    },
+                    "period_date_end": {
+                      "type": "string"
+                    },
+                    "period_interval": {
+                      "type": "string"
+                    },
+                    "object_amount": {
+                      "type": "string"
+                    },
+                    "period_intervals": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "xml": {
+                    "name": "",
+                    "wrapped": true
+                  },
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/global-metrics/charts": {
+      "get": {
+        "tags": [
+          "global-metrics"
+        ],
+        "summary": "Get data for charts global metrics",
+        "description": "Data charts global market capitalization or BTC dominance",
+        "operationId": "getChartsData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "period_interval",
+            "in": "query",
+            "description": "Time interval",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "minute",
+                "hour",
+                "day",
+                "week"
+              ]
+            }
+          },
+          {
+            "name": "chart_type",
+            "in": "query",
+            "description": "Time interval",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "market_cap",
+                "btc_dominance"
+              ]
+            }
+          },
+          {
+            "name": "period_date_start",
+            "in": "query",
+            "description": "Date start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "period_date_end",
+            "in": "query",
+            "description": "Date end",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "object_amount",
+            "in": "query",
+            "description": "Amount object in response",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "period_date_end": {
+                      "type": "string"
+                    },
+                    "period_date_start": {
+                      "type": "string"
+                    },
+                    "period_interval": {
+                      "type": "string"
+                    },
+                    "object_amount": {
+                      "type": "number"
+                    },
+                    "chart_type": {
+                      "type": "string"
+                    },
+                    "chart_types": {
+                      "type": "array",
+                      "xml": {
+                        "name": "",
+                        "wrapped": true
+                      },
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "period_intervals": {
+                      "type": "array",
+                      "xml": {
+                        "name": "",
+                        "wrapped": true
+                      },
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "xml": {
+                    "name": "",
+                    "wrapped": true
+                  },
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/top/tn_indexes/charts": {
+      "get": {
+        "tags": [
+          "top"
+        ],
+        "summary": "Get data for charts TN index",
+        "description": "Data charts interval time from to",
+        "operationId": "getCharts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Index type",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "tn10",
+                "tn50",
+                "tn100",
+                "tn200"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "period_date_start",
+            "in": "query",
+            "description": "Date start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "period_date_end",
+            "in": "query",
+            "description": "Date end",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "object_amount",
+            "in": "query",
+            "description": "Amount object in response",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "period_date_end": {
+                      "type": "string"
+                    },
+                    "period_interval": {
+                      "type": "string"
+                    },
+                    "object_amount": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "xml": {
+                    "name": "",
+                    "wrapped": true
+                  },
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/global-metrics/latest": {
+      "get": {
+        "tags": [
+          "global-metrics"
+        ],
+        "summary": "Get latest data for market",
+        "description": "Data charts global market capitalization or BTC dominance",
+        "operationId": "getChartsData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "convert",
+            "in": "query",
+            "description": "What currency conversion, default: USD",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "convert": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "active_cryptocurrencies": {
+                      "type": "number"
+                    },
+                    "active_market_pairs": {
+                      "type": "number"
+                    },
+                    "active_exchanges": {
+                      "type": "number"
+                    },
+                    "eth_dominance": {
+                      "type": "number"
+                    },
+                    "btc_dominance": {
+                      "type": "number"
+                    },
+                    "total_market_cap": {
+                      "type": "number"
+                    },
+                    "total_volume_24h": {
+                      "type": "number"
+                    },
+                    "btc_dominance_dollar": {
+                      "type": "number"
+                    },
+                    "eth_dominance_dollar": {
+                      "type": "number"
+                    },
+                    "other_dominance": {
+                      "type": "number"
+                    },
+                    "other_dominance_dollar": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/coin/cryptocurrency": {
+      "get": {
+        "tags": [
+          "coin"
+        ],
+        "summary": "Get list cryptocurrencies",
+        "description": "List cryptocurrencies",
+        "operationId": "getCryptocurrencies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Pagination page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination per_page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting by",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "market_cap",
+                "name",
+                "date_added",
+                "circulating_supply",
+                "total_supply",
+                "max_supply",
+                "num_market_pairs",
+                "market_cap_order"
+              ]
+            }
+          },
+          {
+            "name": "sort_dir",
+            "in": "query",
+            "description": "Sorting by",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "desc",
+                "asc"
+              ]
+            }
+          },
+          {
+            "name": "autocomplete",
+            "in": "query",
+            "description": "Autocomplete by ticker and name",
+            "required": false,
+            "type": "string"
+          },
+          {
+          "name": "market_cap",
+            "in": "query",
+            "description": "Market capitalization filter",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "1BP",
+                "1B",
+                "100M",
+                "10M",
+                "1M",
+                "100K"
+              ]
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Price filter",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "100P",
+                "100",
+                "1",
+                "0.0001"
+              ]
+            }
+          },
+          {
+            "name": "volume24",
+            "in": "query",
+            "description": "Volume24 filter",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "10MP",
+                "10M",
+                "1M",
+                "100K",
+                "10K"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "number"
+                    },
+                    "per_page": {
+                      "type": "number"
+                    },
+                    "skip": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "limit": {
+                      "type": "number"
+                    },
+                    "sort": {
+                      "type": "string"
+                    },
+                    "sortDir": {
+                      "type": "string"
+                    },
+                    "autocomplete": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "symbol": {
+                        "type": "string"
+                      },
+                      "circulating_supply": {
+                        "type": "number"
+                      },
+                      "logo": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "type": "number"
+                      },
+                      "volume_24h": {
+                        "type": "number"
+                      },
+                      "percent_change_24h": {
+                        "type": "number"
+                      },
+                      "percent_change_1h": {
+                        "type": "number"
+                      },
+                      "percent_change_7d": {
+                        "type": "number"
+                      },
+                      "market_cap": {
+                        "type": "number"
+                      },
+                      "rank": {
+                        "type": "number"
+                      },
+                      "increase": {
+                        "type": "number"
+                      },
+                      "Wx": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/coefficients/global_charts": {
+      "get": {
+        "tags": [
+          "coefficients"
+        ],
+        "summary": "Get Annualized Return",
+        "description": "Get Annualized Return",
+        "operationId": "getCryptocurrencies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "period_date_start",
+            "in": "query",
+            "description": "Start date",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "period_date_end",
+            "in": "query",
+            "description": "End date",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "chart_type",
+            "in": "query",
+            "description": "Chart type",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "return"
+              ]
+            }
+          },
+          {
+            "name": "period_interval",
+            "in": "query",
+            "description": "Interval",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "daily",
+                "weekly",
+                "monthly"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "photoUrls"
+              ],
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "period_date_end": {
+                      "type": "string"
+                    },
+                    "period_interval": {
+                      "type": "string"
+                    },
+                    "object_amount": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "xml": {
+                    "name": "",
+                    "wrapped": true
+                  },
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/coin/top_market_pairs": {
+      "get": {
+        "400": {
+          "description": "Invalid status value"
+        },
+        "tags": [
+          "coin"
+        ],
+        "summary": "Get coin pairs sorted by volume24",
+        "description": "Get coin pairs sorted by volume24",
+        "operationId": "top_market_pairs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "description": "Coin symbol",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Coin limit per page",
+            "required": false,
+            "type": "integer",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "error_message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer"
+                    },
+                    "perPage": {
+                      "type": "integer"
+                    },
+                    "skip": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "filters": {
+                  "type": "object",
+                  "properties": {
+                    "symbol": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "petstore_auth": [
+            "write:pets",
+            "read:pets"
+          ]
+        }
+      ]
+    }
+  },
+  "consumes": [
+    "application/json"
+  ]
+}
